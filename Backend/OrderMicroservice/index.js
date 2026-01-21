@@ -1,9 +1,9 @@
 const grpc = require("@grpc/grpc-js");
 const protoLoader = require("@grpc/proto-loader");
 
-const { getAllBeers, getBeer } = require("./beerService");
+const { placeOrder } = require("./orderService");
 
-const PROTO_PATH = __dirname + '/protos/beerProto.proto';
+const PROTO_PATH = __dirname + '/protos/orderProto.proto';
 
 const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
     keepCase: true,
@@ -13,16 +13,15 @@ const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
     oneofs: true
 });
 
-const beerProto = grpc.loadPackageDefinition(packageDefinition).beerProto;
+const orderProto = grpc.loadPackageDefinition(packageDefinition).orderProto;
 
 const server = new grpc.Server();
 
-server.addService(beerProto.BeerService.service, {
-    GetAllBeers: getAllBeers,
-    GetBeer: getBeer
+server.addService(orderProto.OrderService.service, {
+    PlaceOrder: placeOrder
 });
 
-server.bindAsync('0.0.0.0:50051', grpc.ServerCredentials.createInsecure(), (err, port) => {
+server.bindAsync('0.0.0.0:50052', grpc.ServerCredentials.createInsecure(), (err, port) => {
     if (err != null) {
         return console.error(err);
     }

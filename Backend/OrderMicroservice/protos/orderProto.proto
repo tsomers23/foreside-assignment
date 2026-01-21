@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package orderProto;
+
+service OrderService {
+  rpc SendOrder (OrderRequest) returns (OrderResponse);
+}
+
+message OrderItem {
+  string id = 1;
+  int32 amount = 2;
+}
+
+message OrderRequest {
+  repeated OrderItem items = 1;
+}
+
+message ReadyBeer {
+  string id = 1;
+  string name = 2;
+  int32 amount = 3;
+  int32 total_time = 4;
+}
+
+message OrderResponse {
+  repeated ReadyBeer beers = 1;
+  int32 total_order_time = 2;
+}

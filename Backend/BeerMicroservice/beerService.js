@@ -6,13 +6,9 @@ function getAllBeers(call, callback) {
 }
 
 function getBeer(call, callback) {
-    const beer = beers.find(b => b.id === call.request.id);
-
-    if (!beer) {
-        return callback(new Error("No beer found"));
-    }
-
-    callback(null, beer);
+    const beer = getBeerById(call.request.id);
+    callback(null, { beer });
 }
+
 
 module.exports = { getAllBeers, getBeer };
